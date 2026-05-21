@@ -73,7 +73,6 @@ class SequentialMutexTodosControllerExample extends SequentialControllerHandler 
   });
 }
 
-/// Mutex example: queues todo load requests and runs them sequentially.
 class TodoController extends ChangeNotifier {
   TodoController({required final ITodosRepository todosRepository})
     : _iTodosRepository = todosRepository;
