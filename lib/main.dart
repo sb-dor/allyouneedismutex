@@ -87,7 +87,7 @@ class HomeScreen extends StatefulWidget {
 
 /// State for widget HomeScreen.
 class _HomeScreenState extends State<HomeScreen> {
-  late final TodosController _todosController;
+  late final DroppableMutexTodosControllerExample _todosController;
 
   /* #region Lifecycle */
   @override
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     // Initial state initialization
     final dependencies = DependenciesScope.of(context);
-    _todosController = TodosController(
+    _todosController = DroppableMutexTodosControllerExample(
       todosRepository: TodosRepositoryImpl(client: dependencies.httpClient),
     )..load();
   }
@@ -118,6 +118,14 @@ class _HomeScreenState extends State<HomeScreen> {
       surfaceTintColor: Colors.white,
       foregroundColor: const Color(0xFF171A1F),
       elevation: 0,
+      actions: [
+        IconButton(
+          onPressed: () {
+            _todosController.load();
+          },
+          icon: Icon(Icons.refresh),
+        ),
+      ],
     ),
     body: SafeArea(
       child: ListenableBuilder(
@@ -128,9 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           return RefreshIndicator(
-            onRefresh: () async {
-              _todosController.load();
-            },
+            onRefresh: _todosController.load,
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: _todosController.todos.length,
