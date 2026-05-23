@@ -15,8 +15,8 @@ void main() => runZonedGuarded(
     runApp(Application(dependencies: dependencies));
   },
   (error, stackTrace) {
-    debugPrint(error.toString());
-    debugPrint(stackTrace.toString());
+    debugPrint('Zone error ${error.toString()}');
+    debugPrint('Zone stacktrace: ${stackTrace.toString()}');
   },
 );
 
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () {
             _todosController.load();
           },
-          icon: Icon(Icons.refresh),
+          icon: const Icon(Icons.refresh),
         ),
       ],
     ),

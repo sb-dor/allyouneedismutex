@@ -3,6 +3,17 @@ import 'package:allyouneedismutex/todos_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mutex/mutex.dart';
 
+/// Unhandled exceptions from these controllers are propagated to
+/// `main()`'s `runZonedGuarded`, because unlike `bloc`/`control`
+/// packages they do not provide a `ControllerObserver` mechanism.
+///
+/// These controllers also do not expose immutable state objects like
+/// `Bloc` or `Cubit`. State updates should be handled similarly to
+/// `ChangeNotifier` by calling `notifyListeners()`.
+///
+/// Their primary purpose is to prevent race conditions and ensure
+/// sequential/droppable async execution.
+
 /// Base example for controllers that run async operations one after another.
 class SequentialControllerHandler with ChangeNotifier {
   final _$mutex = Mutex();
@@ -76,12 +87,11 @@ class SequentialMutexTodosControllerExample extends SequentialControllerHandler 
 class TodoController extends ChangeNotifier {
   TodoController({required final ITodosRepository todosRepository})
     : _iTodosRepository = todosRepository;
+  final _$mutex = Mutex();
 
   final ITodosRepository _iTodosRepository;
 
   final List<Todo> todos = [];
-
-  final _$mutex = Mutex();
 
   /// Handles a given operation sequentially.
   ///
