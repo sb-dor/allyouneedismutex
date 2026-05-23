@@ -87,7 +87,7 @@ class HomeScreen extends StatefulWidget {
 
 /// State for widget HomeScreen.
 class _HomeScreenState extends State<HomeScreen> {
-  late final DroppableMutexTodosControllerExample _todosController;
+  late final DroppableTodosControllerExample _todosController;
 
   /* #region Lifecycle */
   @override
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     // Initial state initialization
     final dependencies = DependenciesScope.of(context);
-    _todosController = DroppableMutexTodosControllerExample(
+    _todosController = DroppableTodosControllerExample(
       todosRepository: TodosRepositoryImpl(client: dependencies.httpClient),
     )..load();
   }
